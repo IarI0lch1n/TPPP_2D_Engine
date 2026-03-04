@@ -1,0 +1,80 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>2c732b32-59ba-4a17-8c5e-39f369ecb15b</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>python_engine\apps\demo_pygame.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>2D_Engine(Patterns)</Name>
+    <RootNamespace>2D_Engine(Patterns)</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="python_engine\apps\demo_console.py" />
+    <Compile Include="python_engine\apps\demo_pygame.py" />
+    <Compile Include="python_engine\apps\__init__.py" />
+    <Compile Include="python_engine\engine\core\config.py" />
+    <Compile Include="python_engine\engine\core\resources.py" />
+    <Compile Include="python_engine\engine\core\__init__.py" />
+    <Compile Include="python_engine\engine\ecs\entity.py" />
+    <Compile Include="python_engine\engine\ecs\world.py" />
+    <Compile Include="python_engine\engine\ecs\__init__.py" />
+    <Compile Include="python_engine\engine\gameplay\prototypes.py" />
+    <Compile Include="python_engine\engine\gameplay\waves.py" />
+    <Compile Include="python_engine\engine\gameplay\__init__.py" />
+    <Compile Include="python_engine\engine\prefabs\builders.py" />
+    <Compile Include="python_engine\engine\prefabs\catalog.py" />
+    <Compile Include="python_engine\engine\prefabs\director.py" />
+    <Compile Include="python_engine\engine\prefabs\__init__.py" />
+    <Compile Include="python_engine\engine\ui\creators.py" />
+    <Compile Include="python_engine\engine\ui\director.py" />
+    <Compile Include="python_engine\engine\ui\factory.py" />
+    <Compile Include="python_engine\engine\ui\products.py" />
+    <Compile Include="python_engine\engine\ui\screens.py" />
+    <Compile Include="python_engine\engine\ui\widgets.py" />
+    <Compile Include="python_engine\engine\ui\__init__.py" />
+    <Compile Include="python_engine\engine\__init__.py" />
+    <Compile Include="python_engine\tests\test_factory.py" />
+    <Compile Include="python_engine\tests\test_singleton.py" />
+    <Compile Include="python_engine\__init__.py" />
+    <Compile Include="_2D_Engine_Patterns_.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="python_engine\" />
+    <Folder Include="python_engine\apps\" />
+    <Folder Include="python_engine\apps\__pycache__\" />
+    <Folder Include="python_engine\engine\" />
+    <Folder Include="python_engine\engine\core\" />
+    <Folder Include="python_engine\engine\ecs\" />
+    <Folder Include="python_engine\engine\gameplay\" />
+    <Folder Include="python_engine\engine\ui\" />
+    <Folder Include="python_engine\engine\prefabs\" />
+    <Folder Include="python_engine\tests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="python_engine\apps\__pycache__\demo_console.cpython-314.pyc" />
+    <Content Include="python_engine\apps\__pycache__\__init__.cpython-314.pyc" />
+    <Content Include="python_engine\README.md" />
+    <Content Include="python_engine\requirements.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>
