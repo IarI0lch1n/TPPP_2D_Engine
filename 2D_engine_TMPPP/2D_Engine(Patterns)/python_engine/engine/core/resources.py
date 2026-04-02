@@ -18,8 +18,6 @@ class ResourceManager:
         ResourceManager._initialized = True
 
     def texture(self, path: str):
-        # В реальном движке тут pygame.image.load + convert_alpha.
-        # Здесь — кэш-заменитель для демонстрации.
         if path not in self._textures:
             self._textures[path] = f"<Texture:{path}>"
         return self._textures[path] 

@@ -11,6 +11,8 @@
     <OutputPath>.</OutputPath>
     <Name>2D_Engine(Patterns)</Name>
     <RootNamespace>2D_Engine(Patterns)</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <InterpreterId>Global|PythonCore|3.14</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +39,13 @@
     <Compile Include="python_engine\engine\prefabs\catalog.py" />
     <Compile Include="python_engine\engine\prefabs\director.py" />
     <Compile Include="python_engine\engine\prefabs\__init__.py" />
+    <Compile Include="python_engine\engine\structural\adapter.py" />
+    <Compile Include="python_engine\engine\structural\decorator.py" />
+    <Compile Include="python_engine\engine\structural\facade.py" />
+    <Compile Include="python_engine\engine\structural\flyweight.py" />
+    <Compile Include="python_engine\engine\structural\proxy.py" />
+    <Compile Include="python_engine\engine\structural\resource_hub.py" />
+    <Compile Include="python_engine\engine\structural\__init__.py" />
     <Compile Include="python_engine\engine\ui\creators.py" />
     <Compile Include="python_engine\engine\ui\director.py" />
     <Compile Include="python_engine\engine\ui\factory.py" />
@@ -58,6 +67,7 @@
     <Folder Include="python_engine\engine\core\" />
     <Folder Include="python_engine\engine\ecs\" />
     <Folder Include="python_engine\engine\gameplay\" />
+    <Folder Include="python_engine\engine\structural\" />
     <Folder Include="python_engine\engine\ui\" />
     <Folder Include="python_engine\engine\prefabs\" />
     <Folder Include="python_engine\tests\" />
@@ -67,6 +77,9 @@
     <Content Include="python_engine\apps\__pycache__\__init__.cpython-314.pyc" />
     <Content Include="python_engine\README.md" />
     <Content Include="python_engine\requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.14" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

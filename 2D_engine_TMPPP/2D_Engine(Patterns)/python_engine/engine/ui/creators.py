@@ -12,7 +12,7 @@ class UIElementCreator(ABC):
     - factory_method(factory) = creates Product
     """
     def render(self, panel: AbstractPanel, factory: AbstractUIFactory) -> AbstractWidget:
-        widget = self.factory_method(factory)   # <- Factory Method call
+        widget = self.factory_method(factory)   
         panel.add(widget)
         return widget
 

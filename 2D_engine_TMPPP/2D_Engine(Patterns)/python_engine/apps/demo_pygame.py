@@ -1,28 +1,16 @@
 import pygame
-
-from python_engine.engine.core.config import GameConfig
-from python_engine.engine.ecs.world import World
-from python_engine.engine.prefabs.catalog import PrefabCatalog
-from python_engine.engine.ui.factory import DarkUIFactory, LightUIFactory
-from python_engine.engine.ui.screens import MenuScreen
+from python_engine.engine.structural.facade import EngineFacade
 
 
 def main():
     pygame.init()
 
-    cfg = GameConfig()
-    screen = pygame.display.set_mode(cfg.get("resolution", (900, 560)))
-    pygame.display.set_caption("2D Engine (UI Patterns - GoF)")
+    engine = EngineFacade()
+    screen = pygame.display.set_mode(engine.cfg.get("resolution", (900, 560)))
+    pygame.display.set_caption("2D Engine (GoF Structural + Creational)")
     clock = pygame.time.Clock()
 
-    world = World()
-    prefabs = PrefabCatalog()
-
-    theme = cfg.get("ui_theme", "dark")
-    factory = DarkUIFactory() if theme == "dark" else LightUIFactory()
-    is_dark = (theme == "dark")
-
-    screen_obj = MenuScreen(factory, world, prefabs, is_dark)
+    menu = engine.build_menu_screen()
 
     running = True
     while running:
@@ -33,26 +21,17 @@ def main():
                 running = False
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
-                # переключение темы = смена ConcreteFactory (Abstract Factory)
-                if cfg.get("ui_theme") == "dark":
-                    cfg.set("ui_theme", "light")
-                    factory = LightUIFactory()
-                    is_dark = False
-                else:
-                    cfg.set("ui_theme", "dark")
-                    factory = DarkUIFactory()
-                    is_dark = True
+                engine.toggle_theme()
+                menu = engine.build_menu_screen()
 
-                screen_obj = MenuScreen(factory, world, prefabs, is_dark)
+            menu.handle_event(event)
 
-            screen_obj.handle_event(event)
+        menu.update(dt)
 
-        screen_obj.update(dt)
-
-        bg = (12, 12, 14) if is_dark else (240, 240, 240)
+        bg = (12, 12, 14) if engine.cfg.get("ui_theme") == "dark" else (240, 240, 240)
         screen.fill(bg)
+        menu.draw(screen)
 
-        screen_obj.draw(screen)
         pygame.display.flip()
 
     pygame.quit()

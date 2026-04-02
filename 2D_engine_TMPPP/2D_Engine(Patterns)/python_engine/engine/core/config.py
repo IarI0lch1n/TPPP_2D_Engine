@@ -16,7 +16,7 @@ class GameConfig:
 
         self.settings = {
             "resolution": (900, 560),
-            "ui_theme": "dark",  # dark | light
+            "ui_theme": "dark",  
         }
         GameConfig._initialized = True
 

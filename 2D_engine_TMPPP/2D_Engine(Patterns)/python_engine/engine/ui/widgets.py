@@ -33,7 +33,7 @@ class _BaseButton(AbstractButton):
         self.rect = rect
         self.text = text
         self.font = font
-        self.colors = colors  # bg, bg_hover, text, border
+        self.colors = colors  
         self.on_click = on_click
         self._hover = False
 
