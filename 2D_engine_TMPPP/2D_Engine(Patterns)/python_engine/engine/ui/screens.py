@@ -23,9 +23,7 @@ class MenuScreen:
 
         self._build_ui()
 
-    # -------------------------------
-    # UI Build
-    # -------------------------------
+
     def _build_ui(self):
         self.root = self.factory.create_panel(20, 20, 860, 520)
 
@@ -38,50 +36,13 @@ class MenuScreen:
         def refresh():
             self.status.set_text(f"World entities: {len(self.world.entities)}")
 
-        def spawn_player():
-            e = self.prefabs.player(120, 260)
-            self.world.add(e)
-            refresh()
-
-        def spawn_npc():
-            e = self.prefabs.npc_merchant(240, 260)
-            self.world.add(e)
-            refresh()
-
-        def spawn_enemy():
-            e = self.prefabs.enemy_slime(180, 320)  
-            self.world.add(e)
-            refresh()
-
-        def clear_world():
-            self.world.clear()
-            refresh()
-
-        btn_player = ButtonCreator(40, 170, 240, 52, "Spawn Player", spawn_player).render(self.root, self.factory)
-        btn_npc    = ButtonCreator(40, 235, 240, 52, "Spawn NPC", spawn_npc).render(self.root, self.factory)
-        btn_enemy  = ButtonCreator(40, 300, 240, 52, "Spawn Enemy", spawn_enemy).render(self.root, self.factory)
-        btn_clear  = ButtonCreator(40, 365, 240, 52, "Clear World", clear_world).render(self.root, self.factory)
-
-        self._decorate_button(btn_player, "Builds Player prefab and adds to World")
-        self._decorate_button(btn_npc, "Builds NPC prefab and adds to World")
-        self._decorate_button(btn_enemy, "Builds Enemy prefab and adds to World")
-        self._decorate_button(btn_clear, "Clears all entities from World")
-
-        refresh()
-
-    def _decorate_button(self, button_widget, tooltip_text: str):
-        decorated = BorderDecorator(button_widget, color=(255, 200, 80), width=2)
-        decorated = TooltipDecorator(decorated, tooltip_text, self.tooltip_font)
-        self.root.add(decorated)
-
-    # -------------------------------
-    # Loop hooks
-    # -------------------------------
     def handle_event(self, event: pygame.event.Event):
         self.root.handle_event(event)
 
     def update(self, dt: float):
         self.root.update(dt)
+        if self.status:
+            self.status.set_text(f"World entities: {len(self.world.entities)}")
 
     def draw(self, surface: pygame.Surface):
         self.root.draw(surface)

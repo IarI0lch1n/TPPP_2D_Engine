@@ -23,7 +23,7 @@ class EngineFacade:
     def build_menu_screen(self) -> MenuScreen:
         theme = self.cfg.get("ui_theme", "dark")
         is_dark = (theme == "dark")
-        return MenuScreen(self.make_ui_factory(), self.world, self.prefabs, is_dark)
+        return MenuScreen(self.make_ui_factory(), self.world, self.prefabs, is_dark) 
 
     def toggle_theme(self):
         if self.cfg.get("ui_theme") == "dark":
