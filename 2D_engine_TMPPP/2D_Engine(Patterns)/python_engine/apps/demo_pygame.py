@@ -9,7 +9,7 @@ from python_engine.engine.behavioral.command import (
     MoveUpCommand, MoveDownCommand, MoveLeftCommand, MoveRightCommand,
     StopUpCommand, StopDownCommand, StopLeftCommand, StopRightCommand,
     FaceUpCommand, FaceDownCommand, FaceLeftCommand, FaceRightCommand,
-    AttackCommand, ClearAttackCommand
+    AttackCommand, ClearAttackCommand, RestartGameCommand
 )
 from python_engine.engine.behavioral.memento import Caretaker
 from python_engine.engine.behavioral.strategy import AggressiveStrategy, PatrolStrategy, NeutralStrategy
@@ -25,7 +25,7 @@ def main():
 
     engine = EngineFacade()
     screen = pygame.display.set_mode(engine.cfg.get("resolution", (900, 560)))
-    pygame.display.set_caption("2D Engine (GoF Behavioral: State+Strategy+Observer+Command+Memento)")
+    pygame.display.set_caption("2D Engine (TMPPP Project)")
     clock = pygame.time.Clock()
 
     menu = engine.build_menu_screen()
@@ -77,6 +77,8 @@ def main():
     invoker.bind_press(pygame.K_SPACE, AttackCommand(input_ctx))
     invoker.bind_release(pygame.K_SPACE, ClearAttackCommand(input_ctx))
 
+    
+
     world_ctx = WorldContext()
 
     player_entity = engine.prefabs.player(40, 40)
@@ -92,15 +94,59 @@ def main():
 
     session = GameSession(engine, bus, world_ctx, player, waves)
 
+    
+
+    def restart_game():
+        nonlocal menu, player_entity, player, waves, session, game_over
+
+        game_over = False
+        game_over_observer.is_over = False
+
+        caretaker.clear()
+        print("[MEMENTO] Cleared checkpoint")
+
+        engine.world.clear()
+        world_ctx.enemies.clear()
+
+        player_entity = engine.prefabs.player(40, 40)
+        engine.world.add(player_entity)
+
+        player = PlayerController(player_entity, input_ctx, bus)
+        world_ctx.player = player
+
+        input_ctx.up = input_ctx.down = input_ctx.left = input_ctx.right = False
+        input_ctx.attack = False
+        input_ctx.facing = (0, 1)
+
+        waves = WaveManager(engine, bus, world_ctx)
+
+        session = GameSession(engine, bus, world_ctx, player, waves)
+
+        menu = engine.build_menu_screen()
+        menu.world = engine.world
+        menu.prefabs = engine.prefabs
+
+        print("[RESTART] Game restarted")
+
     game_over = False
+
+    invoker.bind_press(pygame.K_r, RestartGameCommand(restart_game))
 
     running = True
     while running:
         dt = clock.tick(60) / 1000.0
 
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 running = False
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                running = False
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                invoker.handle_press(pygame.K_r)
+                continue  
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
                 engine.toggle_theme()
@@ -131,17 +177,31 @@ def main():
                 m = caretaker.load()
                 if m:
                     session.restore(m)
-                    print("[MEMENTO] FULL Restored")
+
+                    game_over = False
+                    game_over_observer.is_over = False
+
+                    if player_entity not in engine.world.entities:
+                        engine.world.add(player_entity)
+
+                    input_ctx.up = input_ctx.down = input_ctx.left = input_ctx.right = False
+                    input_ctx.attack = False
+
+                    print("[MEMENTO] FULL Restored (Resume)")
 
             if not game_over:
                 if event.type == pygame.KEYDOWN:
-                    invoker.handle_press(event.key)
-                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_r:
+                        invoker.handle_press(event.key)    
+                    elif not game_over:
+                        invoker.handle_press(event.key)     
+
+                if event.type == pygame.KEYUP and not game_over:
                     invoker.handle_release(event.key)
 
             menu.handle_event(event)
 
-        if game_over_observer.is_over:
+        if not game_over and game_over_observer.is_over:
             game_over = True
 
         if not game_over:
@@ -219,6 +279,15 @@ def main():
             x = screen.get_width() // 2 - text.get_width() // 2
             y = screen.get_height() // 2 - text.get_height() // 2
             screen.blit(text, (x, y))
+            hint_font = pygame.font.SysFont("Consolas", 22)
+            hint1 = hint_font.render("F9 — загрузить чекпоинт", True, (255, 220, 220))
+            hint2 = hint_font.render("R — перезапустить", True, (255, 220, 220))
+
+            hx1 = screen.get_width() // 2 - hint1.get_width() // 2
+            hx2 = screen.get_width() // 2 - hint2.get_width() // 2
+
+            screen.blit(hint1, (hx1, y + 70))
+            screen.blit(hint2, (hx2, y + 105))
 
         pygame.display.flip()
 

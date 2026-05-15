@@ -16,7 +16,6 @@ class Originator:
 
 
 class Caretaker:
-    """Caretaker (GoF): хранит memento, не лезет внутрь."""
     def __init__(self):
         self._last: GameMemento | None = None
 
@@ -25,3 +24,6 @@ class Caretaker:
 
     def load(self) -> GameMemento | None:
         return self._last
+
+    def clear(self) -> None:
+        self._last = None

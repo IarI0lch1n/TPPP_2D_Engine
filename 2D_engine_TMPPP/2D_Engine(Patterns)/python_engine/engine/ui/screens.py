@@ -27,11 +27,11 @@ class MenuScreen:
     def _build_ui(self):
         self.root = self.factory.create_panel(20, 20, 860, 520)
 
-        LabelCreator(40, 40, "UI Patterns Demo (Abstract Factory + Factory Method)", 24).render(self.root, self.factory)
-        LabelCreator(40, 80, "Entities are created via Builder (Director + ConcreteBuilder).", 20).render(self.root, self.factory)
-
-        self.status = self.factory.create_label(40, 120, "World entities: 0", 20)
+        self.status = self.factory.create_label(40, 40, "World entities: 0", 24)
         self.root.add(self.status)
+
+        self.hp_label = self.factory.create_label(40, 80, "HP: -", 20)
+        self.root.add(self.hp_label)
 
         def refresh():
             self.status.set_text(f"World entities: {len(self.world.entities)}")
@@ -41,8 +41,17 @@ class MenuScreen:
 
     def update(self, dt: float):
         self.root.update(dt)
+
         if self.status:
             self.status.set_text(f"World entities: {len(self.world.entities)}")
+
+        if self.hp_label:
+           player = next((e for e in self.world.entities if e.name == "Player"), None)
+           if player is None:
+                self.hp_label.set_text("HP: -")
+           else:
+                hp = int(player.components.get("hp", 0))
+                self.hp_label.set_text(f"HP: {hp}")
 
     def draw(self, surface: pygame.Surface):
         self.root.draw(surface)

@@ -80,12 +80,19 @@ class ClearAttackCommand(Command):
     def __init__(self, input_ctx): self.input = input_ctx
     def execute(self) -> None: self.input.attack = False
 
+# ---- Restart flag ----
+class RestartGameCommand(Command):
+    def __init__(self, restart_callback):
+        self._restart_callback = restart_callback
+
+    def execute(self) -> None:
+        print("[COMMAND] Restart executed")
+        self._restart_callback()
 
 class InputInvoker:
-    """Invoker (GoF): вызывает набор команд, привязанных к событию."""
     def __init__(self):
-        self.on_press = {}  
-        self.on_release = {}  
+        self.on_press = {}
+        self.on_release = {}
 
     def bind_press(self, key, cmd: Command):
         self.on_press.setdefault(key, []).append(cmd)
