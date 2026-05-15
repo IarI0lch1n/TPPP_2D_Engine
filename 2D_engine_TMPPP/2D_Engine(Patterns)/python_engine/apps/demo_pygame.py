@@ -280,8 +280,8 @@ def main():
             y = screen.get_height() // 2 - text.get_height() // 2
             screen.blit(text, (x, y))
             hint_font = pygame.font.SysFont("Consolas", 22)
-            hint1 = hint_font.render("F9 — загрузить чекпоинт", True, (255, 220, 220))
-            hint2 = hint_font.render("R — перезапустить", True, (255, 220, 220))
+            hint1 = hint_font.render("F9 — загрузить чекпоинт", True, (255, 80, 80))
+            hint2 = hint_font.render("R — перезапустить", True, (255, 80, 80))
 
             hx1 = screen.get_width() // 2 - hint1.get_width() // 2
             hx2 = screen.get_width() // 2 - hint2.get_width() // 2
